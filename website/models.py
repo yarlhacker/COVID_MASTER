@@ -87,7 +87,7 @@ class News(Base):
   
     class Meta():
         verbose_name = 'News'
-        verbose_name_plural = 'Newss'
+        verbose_name_plural = 'News'
 
     def __str__(self):
         return self.titre

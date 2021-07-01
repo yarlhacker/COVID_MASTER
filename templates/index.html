@@ -19,11 +19,11 @@
                         <div id="myNav" class="overlay">
                            <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
                            <div class="overlay-content">
-                              <a href="index.html">Home</a>
-                              <a href="protect.html">Protect</a>
-                              <a href="about.html">About</a>
-                              <a href="doctors.html">Doctors</a>
-                              <a href="news.html">News</a>
+                              <a href="{% url 'index' %}">Home</a>
+                              <a href="{% url 'protect' %}">Protect</a>
+                              <a href="{% url 'about' %}">About</a>
+                              <a href="{% url 'doctors' %}">Doctors</a>
+                              <a href="{% url 'news' %}">News</a>
                            </div>
                         </div>
                         <span class="navbar-toggler-icon"></span>
@@ -38,48 +38,22 @@
          <div class="container">
             <div id="my_slider" class="carousel slide" data-ride="carousel">
                <div class="carousel-inner">
-                  <div class="carousel-item active">
+               {% for banner in banners %}
+                  <div class="carousel-item {% if forloop.first %} active {% endif %} ">
                      <div class="row">
                         <div class="col-md-6">
                            <div class="container">
-                              <h1 class="banner_taital">Get Medical Care early</h1>
-                              <p class="banner_text">There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form.</p>
+                              <h1 class="banner_taital">{{banner.titre}}</h1>
+                              <p class="banner_text">{{banner.description}}</p>
                               <div class="more_bt"><a href="#">Read More</a></div>
                            </div>
                         </div>
                         <div class="col-md-6">
-                           <div class="banner_img"><img src="{% static 'images/banner-img.png' %}"></div>
+                           <div class="banner_img"><img src="{{banner.image.url}}"></div>
                         </div>
                      </div>
                   </div>
-                  <div class="carousel-item">
-                     <div class="row">
-                        <div class="col-md-6">
-                           <div class="container">
-                              <h1 class="banner_taital">Get Medical Care early</h1>
-                              <p class="banner_text">There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form.</p>
-                              <div class="more_bt"><a href="#">Read More</a></div>
-                           </div>
-                        </div>
-                        <div class="col-md-6">
-                           <div class="banner_img"><img src="{% static 'images/banner-img.png' %}"></div>
-                        </div>
-                     </div>
-                  </div>
-                  <div class="carousel-item">
-                     <div class="row">
-                        <div class="col-md-6">
-                           <div class="container">
-                              <h1 class="banner_taital">Get Medical Care early</h1>
-                              <p class="banner_text">There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form.</p>
-                              <div class="more_bt"><a href="#">Read More</a></div>
-                           </div>
-                        </div>
-                        <div class="col-md-6">
-                           <div class="banner_img"><img src="{% static 'images/banner-img.png' %}"></div>
-                        </div>
-                     </div>
-                  </div>
+               {% endfor %}
                </div>
                <a class="carousel-control-prev" href="#my_slider" role="button" data-slide="prev">
                <i class="fa fa-angle-left"></i>
@@ -105,14 +79,16 @@
             </div>
             <div class="protect_section_2 layout_padding">
                <div class="row">
+                  {% for protect in protects %}
                   <div class="col-md-6">
-                     <h1 class="hands_text"><a href="#">Wash your <br>hands frequently</a></h1>
-                     <h1 class="hands_text_2"><a href="#">Maintain social <br>distancing</a></h1>
-                     <h1 class="hands_text"><a href="#">Avoid touching eyes,<br>nose and mouth</a></h1>
+                        {% for option in protect.ProtectOption.all %}
+                     <h1 class="hands_text"><a href="#">{{option.nom}}</a></h1>
+                        {% endfor %}
                   </div>
                   <div class="col-md-6">
-                     <div class="image_2"><img src="{% static 'images/img-2.png' %}"></div>
+                     <div class="image_2"><img src="{{protect.image.url}}"></div>
                   </div>
+                  {% endfor %}
                </div>
             </div>
          </div>
@@ -124,11 +100,11 @@
          <div class="container">
             <div class="row">
                <div class="col-md-6">
-                  <div class="about_img"><img src="{% static 'images/img-1.png' %}"></div>
+                  <div class="about_img"><img src="{{about.image.url}}"></div>
                </div>
                <div class="col-md-6">
-                  <h1 class="about_taital">Coronavirus what it is?</span></h1>
-                  <p class="about_text">when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using</p>
+                  <h1 class="about_taital">{{about.titre}}</span></h1>
+                  <p class="about_text">{{about.description}}</p>
                   <div class="read_bt"><a href="#">Read More</a></div>
                </div>
             </div>
@@ -145,8 +121,8 @@
                         <div class="play_icon"><img src="{% static 'images/play-icon.png' %}"></div>
                      </div>
                      <div class="taital_right">
-                        <h1 class="doctor_taital">What doctors say..</h1>
-                        <p class="doctor_text">It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look</p>
+                        <h1 class="doctor_taital">{{doctor.titre}}</h1>
+                        <p class="doctor_text">{{doctor.description}}</p>
                         <div class="readmore_bt"><a href="#">Read More</a></div>
                      </div>
                   </div>
@@ -161,42 +137,21 @@
          <div class="container">
             <div id="main_slider" class="carousel slide" data-ride="carousel">
                <div class="carousel-inner">
-                  <div class="carousel-item active">
+                  {% for new in news %}
+                  <div class="carousel-item {% if forloop.first %} active {% endif %} ">
                      <h1 class="news_taital">Latest News</h1>
                      <p class="news_text">when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using</p>
                      <div class="news_section_2 layout_padding">
                         <div class="box_main">
-                           <div class="image_1"><img src="{% static 'images/news-img.png' %}"></div>
-                           <h2 class="design_text">Coronavirus is Very dangerous</h2>
-                           <p class="lorem_text">It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look</p>
+                           <div class="image_1"><img src="{{new.image.url}}"></div>
+                           <h2 class="design_text">{{new.titre}}</h2>
+                           <p class="lorem_text">{{new.description}}</p>
                            <div class="read_btn"><a href="#">Read More</a></div>
                         </div>
                      </div>
                   </div>
-                  <div class="carousel-item">
-                    <h1 class="news_taital">Latest News</h1>
-                     <p class="news_text">when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using</p>
-                     <div class="news_section_2 layout_padding">
-                        <div class="box_main">
-                           <div class="image_1"><img src="{% static 'images/news-img.png' %}"></div>
-                           <h2 class="design_text">Coronavirus is Very dangerous</h2>
-                           <p class="lorem_text">It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look</p>
-                           <div class="read_btn"><a href="#">Read More</a></div>
-                        </div>
-                     </div>
-                  </div>
-                  <div class="carousel-item">
-                    <h1 class="news_taital">Latest News</h1>
-                     <p class="news_text">when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using</p>
-                     <div class="news_section_2 layout_padding">
-                        <div class="box_main">
-                           <div class="image_1"><img src="{% static 'images/news-img.png' %}"></div>
-                           <h2 class="design_text">Coronavirus is Very dangerous</h2>
-                           <p class="lorem_text">It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look</p>
-                           <div class="read_btn"><a href="#">Read More</a></div>
-                        </div>
-                     </div>      
-                  </div>
+                  {% endfor %}
+                  
                </div>
                <a class="carousel-control-prev" href="#main_slider" role="button" data-slide="prev">
                <i class="fa fa-angle-left"></i>
@@ -213,15 +168,70 @@
       <div class="update_section">
          <div class="container">
             <h1 class="update_taital">Get Every Update.... </h1>
-            <form action="/action_page.php">
+            <form action="#" id="app" method="POST">{% csrf_token %}
                <div class="form-group">
-                   <textarea class="update_mail" placeholder="Massage" rows="5" id="comment" name="Massage"></textarea>
+                   <textarea class="update_mail" placeholder="email" rows="5" id="comment" name="email" v-model="email"></textarea>
                </div>
-               <div class="subscribe_bt"><a href="#">Subscribe Now</a></div>
+               <div class="subscribe_bt" @click.prevent="postmail"><a href="#">Subscribe Now</a></div>
             </form>
          </div>
       </div>
-      <!-- update section end -->
-{% endblock content %}
-      <!--header section start -->
+
+      <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+      <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+      <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+<script>
+         constapp = new Vue({
+        el: '#app',
+        delimiters : ['%{', '}'],
+        data: {
+            email: ''
+        },
+        methods:{
+            postmail(){
+               if(!this.email || !/(\w\.?)+@(\w\.?)+\.[a-zA-Z]{2,3}/.test(this.email)){
+                    Swal.fire({
+                    icon: 'error',
+                    text: 'veuillez saisir un email valide ',
+                    showConfirmButton: false,
+                    timer : 2000
+                    })
+                }
+                else{
+                    let form = new FormData()
+                    form.append("email", JSON.stringify(this.email))
+                    axios.defaults.xsrfHeaderName = 'X-CSRFToken'
+                    axios.defaults.xsrfCookieName = 'csrftoken'
+                    
+                    axios.post("{% url 'postmail' %}", form)
+                    .then((response) =>{
+                        if (response.data.success){
+                           Swal.fire({
+                            icon: 'success',
+                            text: response.data.message,
+                            timer : 2000
+                            }) 
+                        }
+                        else{
+                           Swal.fire({
+                            icon: 'error',
+                            text: response.data.message,
+                            showConfirmButton: false,
+                            timer : 2000
+                            })
+                        }
+                    })
+                    .catch((e) => {
+                        console.log(e)
+                    })
+                }
+
+            }
+        }
+})
+      
+</script>
+{% endblock %}
+
  
